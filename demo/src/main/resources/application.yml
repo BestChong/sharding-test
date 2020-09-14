@@ -1,0 +1,24 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://101.133.172.158:3306/test_demo?useUnicode=true&characterEncoding=utf8
+        username: root
+        password: Abc123!_
+    sharding:
+      tables:
+        pay_order:
+          logic-table: pay_order
+          actual-data-nodes: ds0.pay_order_$->{0..9}
+          table-strategy:
+            standard:
+              sharding-column: order_no
+              precise-algorithm-class-name: com.sharding.demo.sharding.PayOrderPreciseShardingAlgorithm
+
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.sharding.demo.model
